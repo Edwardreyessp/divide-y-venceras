@@ -1,60 +1,70 @@
+from math import ceil, floor
+
 def validar (numero):
     if len(numero) != nDigitos:
         print("El número debe tener %s dígitos" % nDigitos)
 
+#El algoritmo se mantiene igual que para base 10
+def multiplicacion(x, y):
+	if len(str(x)) == 1 or len(str(y)) == 1:
+		return x*y
+	else:
+		n = max(len(str(x)),len(str(y)))
+		m = int(ceil(float(n)/2))
 
-def divide_I(numero):
-    return numero
+		IA = int(floor(x/2**m))
+		DA = int(x%(2**m))
 
+		IB = int(floor(y/2**m))
+		DB = int(y%(2**m))
 
-def divide_D(numero):
-    return numero
+		a = multiplicacion(IA, IB)
+		b = multiplicacion(DA, DB)
+		c = multiplicacion(IA + DA, IB + DB) - a - b
 
-
-def DyV(A, B, n):
-    return 2
-
-
-def productoDyV(A, B, n):
-    if n == 1:
-        print(A * B)
-    else:
-        iA = divide_I(A)
-        dA = divide_D(A)
-        iB = divide_I(B)
-        dB = divide_D(B)
-
-        p1 = DyV(iA, iB, n/2)
-        p2 = DyV(iA, dB, n/2)
-        p3 = DyV(dA, iB, n/2)
-        p4 = DyV(dA, dB, n/2)
-
-        r = pow(10, n)*p1 + pow(10,  n/2)*p2 + pow(10, n/2)*p3 + p4
-        return r
+		prod =  int(a*(2**(m*2)) + c*(2**m) + b)
+		
+		return prod
 
 
+respuesta = 1
 
-# Main
-print("\nMultiplicación de dos números con dígitos de 2^n usando el método de divide y vencerás")
+while respuesta != 0:
+	# Main
+	print("\nMultiplicación de dos números con dígitos de 2^n usando el método de divide y vencerás")
 
-print("\nIntroduzca el valor de n:")
-n = input()
-n = int(n)
-nDigitos = pow(2, n)
+	print("\nIntroduzca el valor de n:")
+	n = input()
+	n = int(n)
+	nDigitos = pow(2, n)
 
-numeroA = ""
-numeroB = ""
+	A = ""
+	B = ""
 
-while(len(numeroA) != nDigitos):
-    print("\nIngresa el primer número de %s dígitos:" % nDigitos)
-    numeroA = input()
-    validar(numeroA)
+	while(len(A) != nDigitos):
+		print("\nIngresa el primer número de %s dígitos:" % nDigitos)
+		A = input()
+		validar(A)
 
-while(len(numeroB) != nDigitos):
-    print("\nIngresa el segundo número de %s dígitos:" % nDigitos)
-    numeroB = input()
-    validar(numeroB)
+	while(len(B) != nDigitos):
+		print("\nIngresa el segundo número de %s dígitos:" % nDigitos)
+		B = input()
+		validar(B)
 
-# Dividir y vencer
-resultado = productoDyV(numeroA, numeroB, nDigitos)
-print(resultado)
+	A = int(A)
+	B = int(B)
+
+	if A < 0 or B < 0:
+		print("Error")
+	elif A == 0 or B == 0:
+		print("AxB: " + str(0))
+	else:
+
+		print("Numero A decimal: " + str(A))
+		print("Numero B decimal: " + str(B))
+
+		multi = multiplicacion(A, B)
+
+		print("AxB en decimal: " + str(multi))
+	
+	respuesta = int(input("Calcular otro producto? (si = 1/no = 0): "))
